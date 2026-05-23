@@ -1,0 +1,6 @@
+.env
+*.log
+__pycache__/
+mobile_backup/
+config.real.json
+secrets/
