@@ -1,0 +1,99 @@
+<!-- APKI_CONF: master=.env | lock=LICENSE | hw=bound | sw=active | display=false -->
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>GMD SPARK</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:4px}
+.dashboard{width:100%;max-width:420px;background:#0D1F1C;border-radius:36px;box-shadow:0 30px 50px rgba(0,0,0,0.7),0 0 0 2px #2a5a4a inset;overflow:hidden;padding:4px 6px;border:1px solid #3b7a64;display:flex;flex-direction:column;height:98vh}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;padding:0 4px;flex-shrink:0}
+.title h1{color:#fff;font-size:1.1rem;font-weight:700}
+.title .sub{color:#A0D4B8;font-size:0.6rem;margin-top:1px}
+.icons{display:flex;gap:3px}
+.ico{width:28px;height:28px;border-radius:18px;background:#1F3E35;border:1px solid #3E7B66;color:#FFE484;display:flex;align-items:center;justify-content:center;font-size:0.85rem;cursor:pointer}
+.upload{background:#162E28;border-radius:12px;padding:4px 6px;margin-bottom:3px;border:1px solid #2F5E52;flex-shrink:0}
+.file-area{background:#1F3E35;border-radius:24px;padding:2px 2px 2px 10px;display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;border:1px solid #3E7B66}
+.file-area span{color:#c0d6cc;font-size:0.65rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
+.file-btn{background:#0D5C3E;color:#FFD966;padding:5px 8px;border-radius:24px;font-weight:700;font-size:0.65rem;cursor:pointer;border:none}
+.file-btn input{display:none}
+.actions{display:flex;gap:3px}
+.btn{flex:1;padding:6px 2px;border:none;border-radius:24px;font-weight:700;font-size:0.65rem;cursor:pointer;background:#1E4036;color:#E0F2E0;border:1px solid #3F7866}
+.btn-primary{background:#0D5C3E;color:#FFE484;border:1px solid #6FAA8C}
+#status{color:#9FCCB2;margin-top:2px;font-size:0.6rem;text-align:center}
+#preview{text-align:center;margin-top:2px}
+#preview img,#preview video{max-width:100%;border-radius:8px;max-height:40px}
+.chat{background:#132A23;border-radius:16px;padding:4px 6px 4px;border:1px solid #2F6652;display:flex;flex-direction:column;min-height:0;overflow:hidden;flex:1;height:78vh}
+.chat-head{display:flex;align-items:center;gap:3px;color:#E0F2DA;padding-bottom:3px;border-bottom:1px solid #2B5F4C;margin-bottom:3px;flex-shrink:0}
+.dot{width:5px;height:5px;background:#3FE88A;border-radius:50%;box-shadow:0 0 3px #2ecc71}
+.chat-head span{font-weight:600;font-size:0.75rem}
+.messages{flex:1;overflow-y:auto;padding-right:2px;display:flex;flex-direction:column;gap:5px;margin-bottom:5px}
+.msg{display:flex;flex-direction:column;max-width:90%}
+.msg.bot{align-self:flex-start}
+.msg.user{align-self:flex-end}
+.bubble{padding:8px 10px;border-radius:14px;font-size:0.8rem;line-height:1.5;word-break:break-word;white-space:pre-wrap}
+.bot .bubble{background:#1F4A3A;color:#EAF6EE;border-bottom-left-radius:3px;border:1px solid #387A60}
+.user .bubble{background:#1B4D5E;color:#fff;border-bottom-right-radius:3px;border:1px solid #338299}
+.time{font-size:0.5rem;color:#89B7A2;margin-top:1px;margin-left:4px}
+.user .time{text-align:right;margin-left:0;margin-right:4px}
+.input-area{display:flex;gap:3px;background:#1E4036;border-radius:24px;padding:3px 3px 3px 10px;border:1px solid #3C7A64;flex-shrink:0;flex-direction:row-reverse}
+.input-area input{flex:1;background:transparent;border:none;color:#fff;font-size:0.75rem;outline:none;padding:3px 0;text-align:right}
+.input-area input::placeholder{color:#9CBFAE;text-align:right}
+.send{background:#0D5C3E;border:none;color:#FFDF7E;font-weight:700;font-size:0.9rem;padding:3px 12px;border-radius:24px;cursor:pointer}
+.footer{margin-top:2px;color:#7FAA97;font-size:0.55rem;text-align:center;border-top:1px dashed #2B5F4C;padding-top:2px;flex-shrink:0}
+.footer span{color:#FFE484;font-weight:600}
+</style>
+</head>
+<body>
+<div class="dashboard">
+  <div class="header">
+    <div class="title"><h1>GMD SPARK</h1><div class="sub">محفوظ اپلوڈ • اسمارٹ اسسٹنٹ</div></div>
+    <div class="icons">
+      <div class="ico" onclick="doAction('copy')">📋</div>
+      <div class="ico" onclick="doAction('share')">📤</div>
+      <div class="ico" onclick="doAction('like')">❤️</div>
+    </div>
+  </div>
+  <div class="upload">
+    <div class="file-area">
+      <span id="fileName">کوئی فائل نہیں</span>
+      <label class="file-btn">فائل منتخب کریں<input type="file" id="fileInput" accept="image/*,video/*,.txt,.json,.js,.html,.css"></label>
+    </div>
+    <div id="preview"></div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="uploadFile()">🚀 سرور</button>
+      <button class="btn" onclick="previewFile()">👁️ پریویو</button>
+    </div>
+    <div id="status"></div>
+  </div>
+  <div class="chat">
+    <div class="chat-head"><span class="dot"></span><span>اسسٹنٹ (آن لائن)</span></div>
+    <div class="messages" id="messages">
+      <div class="msg bot"><div class="bubble">السلام علیکم! میں GMD SPARK ایجنٹ ہوں۔ کیسے مدد کر سکتا ہوں؟</div><div class="time">ابھی</div></div>
+    </div>
+    <div class="input-area">
+      <input type="text" id="chatInput" placeholder="پیغام لکھیں..." autocomplete="off">
+      <button class="send" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+  <div class="footer"><span>DEVELOPER BY MATEEN SUMDANI +923007956507</span></div>
+</div>
+<script>
+const GMD={config:{localOnly:true,encrypt:true,sandbox:true},memory:{store:{},save(u,d){if(!this.store[u])this.store[u]=[];this.store[u].push({...d,ts:Date.now()});localStorage.setItem('gmd_mem',JSON.stringify(this.store));},load(u){return JSON.parse(localStorage.getItem('gmd_mem')||'{}')[u]||[];}},sandbox:{run(c,i=3,t=5000){for(let x=0;x<i;x++){try{const s=Date.now(),r=new Function(c)();if(Date.now()-s>t)throw new Error('Timeout');return r;}catch(e){if(x===i-1)throw e;}}}},route(s){return s.lastMsg?.includes('tool')?'tools':'review';}};
+const CONFIG={project:"GMD AI Agent",version:"2.1.0",owner:"Saad Mir Hadi",location:"Okara Cantt, Pakistan",security_layers:14,deployment:"local",server:{port:3000,host:"127.0.0.1",ssl:false},database:{type:"json",path:"./data/",backup:true},features:{chat:true,security:true,offline:true,logging:true}};
+const KNOWLEDGE={1:"سیکیورٹی بنیادیں: پاس ورڈ کم از کم 12 حروف",2:"دو مرحلہ کی تصدیق: 2FA",3:"انکرپشن: AES-256",4:"نیٹ ورک: فائر وال، VPN",5:"بیک اپ: 3-2-1 اصول",6:"پاس ورڈ مینیجر: Bitwarden",7:"فشنگ سے بچاؤ",8:"سافٹ ویئر اپ ڈیٹ",9:"اینٹی وائرس",10:"نیٹ ورک مانیٹرنگ",11:"لاگ تجزیہ",12:"ایکسیس کنٹرول: RBAC",13:"ڈیٹا درجہ بندی",14:"حفاظتی آڈٹ",15:"حادثہ ردعمل",16:"بیک اپ ٹیسٹنگ",17:"عملہ تربیت",18:"طبیعیاتی سیکیورٹی",19:"موبائل سیکیورٹی",20:"کلاؤڈ سیکیورٹی",21:"API سیکیورٹی",22:"ویب ایپلیکیشن: OWASP",23:"ڈیٹا بیس سیکیورٹی",24:"نیٹ ورک سیگمنٹیشن",25:"IDS/IPS",26:"SIEM",27:"Threat Intelligence",28:"Penetration Testing",29:"Vulnerability Scanning",30:"Compliance: GDPR",31:"ڈیٹا پرائیویسی",32:"Zero Trust",33:"MFA",34:"PAM",35:"DLP",36:"Email Security",37:"Endpoint Security",38:"Network Security",39:"App Security",40:"Supply Chain",41:"Disaster Recovery",42:"Business Continuity",43:"Crisis Management",44:"Legal Compliance",45:"Audit Trail",46:"Forensics",47:"Threat Hunting",48:"SOAR",49:"AI Security",50:"Quantum Resistance"};
+function findAnswer(q){if(!q)return"❓ سوال پوچھیں۔";const s=q.toLowerCase();for(let l in KNOWLEDGE)if(KNOWLEDGE[l].toLowerCase().includes(s))return`📚 لیول ${l}: ${KNOWLEDGE[l]}`;if(s.includes('سلام')||s.includes('ہیلو'))return`وعلیکم السلام! 🤲`;if(s.includes('کیا ہو'))return`✅ تمام سسٹمز فعال ہیں۔`;if(s.includes('سیکیورٹی'))return`🔐 ${CONFIG.security_layers} لیئرز`;if(s.includes('فائل'))return`📁 اوپر فائل منتخب کریں۔`;if(s.includes('لیول'))return`📚 50 لیولز موجود ہیں۔`;return"❓ میں مدد کر سکتا ہوں۔";}
+let currentFile=null;const fileInput=document.getElementById('fileInput'),fileName=document.getElementById('fileName'),preview=document.getElementById('preview'),status=document.getElementById('status');
+fileInput.addEventListener('change',(e)=>{currentFile=e.target.files[0];fileName.textContent=currentFile?`📁 ${currentFile.name}`:'کوئی فائل نہیں';preview.innerHTML='';status.textContent='';});
+function previewFile(){if(!currentFile){status.textContent='⚠️ فائل منتخب کریں';return;}const url=URL.createObjectURL(currentFile);preview.innerHTML='';if(currentFile.type.startsWith('image'))preview.innerHTML=`<img src="${url}">`;else if(currentFile.type.startsWith('video'))preview.innerHTML=`<video src="${url}" controls></video>`;else preview.innerHTML='<p style="color:#ccc;font-size:0.6rem;">📄 پریویو نہیں</p>';}
+async function uploadFile(){if(!currentFile){status.textContent='❌ فائل منتخب کریں';return;}status.textContent='⏳ سرور سے رابطہ...';try{const formData=new FormData();formData.append('myFile',currentFile);const res=await fetch('/upload',{method:'POST',body:formData});const data=await res.json();status.textContent=`✅ ${data.message}`;}catch(err){status.textContent='❌ server.js چلائیں۔';}}
+function doAction(type){if(type==='like')alert('❤️ لائک!');else if(type==='share')alert('📤 شیئر');else if(type==='copy'){navigator.clipboard.writeText('GMD SPARK').then(()=>alert('📋 کاپی ہو گیا!')).catch(()=>alert('📋 کاپی ہو گیا!'));}}
+const messages=document.getElementById('messages'),chatInput=document.getElementById('chatInput');
+function addMessage(text,isUser){const div=document.createElement('div');div.className=`msg ${isUser?'user':'bot'}`;const bubble=document.createElement('div');bubble.className='bubble';bubble.textContent=text;const time=document.createElement('div');time.className='time';time.textContent=new Date().toLocaleTimeString('ur-PK',{hour:'2-digit',minute:'2-digit'});div.appendChild(bubble);div.appendChild(time);messages.appendChild(div);messages.scrollTop=messages.scrollHeight;}
+function sendMessage(){const text=chatInput.value.trim();if(!text)return;addMessage(text,true);chatInput.value='';GMD.memory.save('user_'+Date.now(),{question:text,ts:Date.now()});setTimeout(()=>{const reply=findAnswer(text);addMessage(reply,false);},300);}
+chatInput.addEventListener('keypress',(e)=>{if(e.key==='Enter')sendMessage();});
+</script>
+</body>
+</html>
