@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="ur" dir="rtl">
 <head>
+  <link rel="manifest" href="manifest.json">
+   <meta name="theme-color" content="#0f172a">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>GMD SPARK</title>
@@ -47,6 +49,7 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
 </style>
 </head>
 <body>
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js')}</script>
 <div class="dashboard">
   <div class="header">
     <div class="title"><h1>GMD SPARK</h1><div class="sub">محفوظ اپلوڈ • اسمارٹ اسسٹنٹ</div></div>
