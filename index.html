@@ -47,8 +47,7 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
 .send{background:#0D5C3E;color:#FFDF7E;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;flex-shrink:0}
 .attach{background:#1F4A3A;color:#A0D4B8;border:none;padding:4px 10px;border-radius:16px;font-size:0.65rem;cursor:pointer;flex-shrink:0}
 .attach input{display:none}
-.integration-indicator{background:#1F4A3A;color:#FFDF7E;border:none;padding:4px 10px;border-radius:16px;font-size:0.65rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;gap:3px;animation:glowPulse 2s ease-in-out infinite}@keyframes glowPulse{0%,100%{box-shadow:0 0 5px #FFE484,0 0 10px #FFE484;transform:scale(1)}50%{box-shadow:0 0 15px #FFE484,0 0 25px #FFE484,0 0 35px #FFE484;transform:scale(1.05)}}
-.integration-indicator.active{background:#0D5C3E;color:#FFE484;animation:glowPulse 1.5s ease-in-out infinite,brightPulse 1s ease-in-out infinite}
+.integration-indicator{background:#1F4A3A;color:#FFDF7E;border:none;padding:4px 10px;border-radius:16px;font-size:0.65rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;gap:3px;animation:glowPulse 2s ease-in-out infinite}@keyframes glowPulse{0%,100%{box-shadow:0 0 5px #FFE484,0 0 10px #FFE484;transform:scale(1)}50%{box-shadow:0 0 15px #FFE484,0 0 25px #FFE484,0 0 35px #FFE484;transform:scale(1.05)}}.integration-indicator.active{background:#0D5C3E;color:#FFE484;animation:glowPulse 1.5s ease-in-out infinite,brightPulse 1s ease-in-out infinite}
 @keyframes brightPulse{0%,100%{opacity:1;text-shadow:0 0 10px #FFE484}50%{opacity:0.8;text-shadow:0 0 20px #FFE484,0 0 30px #FFE484}}
 .footer{text-align:center;color:#7FAA97;font-size:0.55rem;padding:4px;border-top:1px dashed #2B5F4C;flex-shrink:0}
 .footer span{color:#FFE484}
@@ -65,7 +64,7 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
       <label class="file-btn">فائل منتخب کریں<input type="file" id="fileInput" accept="image/*,video/*,.txt,.json,.js,.html,.css,.mp3,.wav"></label>
     </div>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="uploadFile()">🚀 سرور</button>
+      <button class="btn btn-primary" onclick="uploadFile()"> سرور</button>
       <button class="btn integration-indicator" id="integrationBtn" onclick="checkIntegration()">💡 انٹیگریشن</button>
     </div>
     <div id="status"></div>
@@ -97,8 +96,7 @@ const SYSTEM_DIRECTIVE="[GMD SPARK v2.1 | Software-Focused] صرف سافٹ وی
 let currentFile=null;
 const fileInput=document.getElementById('fileInput'),fileName=document.getElementById('fileName'),status=document.getElementById('status'),messages=document.getElementById('messages'),chatInput=document.getElementById('chatInput'),modelSelect=document.getElementById('modelSelect'),attachInput=document.getElementById('attachInput'),integrationBtn=document.getElementById('integrationBtn');
 let integrationActive=false;
-// 🔍 سمت کا خودکار تعین (اردو=RTL، انگلش=LTR)
-function getDir(text){return /[\u0600-\u06FF\u0750-\u077F]/.test(text)?'rtl':'ltr';}
+// 🔍 سمت کا خودکار تعین (اردو=RTL، انگلش=LTR)function getDir(text){return /[\u0600-\u06FF\u0750-\u077F]/.test(text)?'rtl':'ltr';}
 
 function checkIntegration(){integrationActive=!integrationActive;if(integrationActive){integrationBtn.classList.add('active');integrationBtn.innerHTML='✅ انٹیگریٹڈ';status.textContent='✅ فعال | '+APKI.MODELS[modelSelect.value];}else{integrationBtn.classList.remove('active');integrationBtn.innerHTML='💡 انٹیگریشن';status.textContent=' غیر فعال';}}
 modelSelect.addEventListener('change',()=>{if(integrationActive){status.textContent='✅ فعال | '+APKI.MODELS[modelSelect.value];}});
@@ -117,7 +115,7 @@ async function sendMessage(){
   chatInput.value='';
   
   const load=document.createElement('div');
-  load.className='msg bot';load.dir='auto';load.textContent='⏳ پروسیسنگ...';
+  load.className='msg bot';load.dir='auto';load.textContent=' پروسیسنگ...';
   messages.appendChild(load);messages.scrollTop=messages.scrollHeight;
   
   try{
