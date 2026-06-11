@@ -13,8 +13,6 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
 .title .sub{color:#A0D4B8;font-size:0.6rem;margin-top:1px}
 .icons{display:flex;gap:3px}
 .ico{width:28px;height:28px;border-radius:18px;background:#1F3E35;border:1px solid #3E7B66;color:#FFE484;display:flex;align-items:center;justify-content:center;font-size:0.85rem;cursor:pointer}
-
-/* REAL-TIME METERS */
 .meters{background:#162E28;border-radius:12px;padding:4px 6px;margin-bottom:3px;border:1px solid #2F5E52;display:flex;gap:4px;flex-shrink:0}
 .meter{flex:1;background:#0D1F1C;border-radius:8px;padding:4px 6px;text-align:center;border:1px solid #3E7B66}
 .meter-label{color:#9CBFAE;font-size:0.55rem;display:block;margin-bottom:2px}
@@ -24,7 +22,6 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
 .status-loading{color:#ffaa00}
 .progress-mini{height:4px;background:#1F3E35;border-radius:2px;margin-top:3px;overflow:hidden}
 .progress-fill{height:100%;background:linear-gradient(90deg,#3FE88A,#2ecc71);transition:width 0.5s}
-
 .upload{background:#162E28;border-radius:12px;padding:4px 6px;margin-bottom:3px;border:1px solid #2F5E52;flex-shrink:0}
 .file-area{background:#1F3E35;border-radius:24px;padding:2px 2px 2px 10px;display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;border:1px solid #3E7B66}
 .file-area span{color:#c0d6cc;font-size:0.65rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
@@ -47,10 +44,10 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
 .bubble{padding:8px 10px;border-radius:14px;font-size:0.8rem;line-height:1.5;word-break:break-word;white-space:pre-wrap}
 .bot .bubble{background:#1F4A3A;color:#EAF6EE;border-bottom-left-radius:3px;border:1px solid #387A60}
 .user .bubble{background:#1B4D5E;color:#fff;border-bottom-right-radius:3px;border:1px solid #338299}
-.time{font-size:0.5rem;color:#89B7A2;margin-top:1px;margin-left:4px}.user .time{text-align:right;margin-left:0;margin-right:4px}
+.time{font-size:0.5rem;color:#89B7A2;margin-top:1px;margin-left:4px}
+.user .time{text-align:right;margin-left:0;margin-right:4px}
 .input-area{display:flex;gap:3px;background:#1E4036;border-radius:24px;padding:3px 3px 3px 10px;border:1px solid #3C7A64;flex-shrink:0;flex-direction:row-reverse}
-.input-area input{flex:1;background:transparent;border:none;color:#fff;font-size:0.75rem;outline:none;padding:3px 0;text-align:right}
-.input-area input::placeholder{color:#9CBFAE;text-align:right}
+.input-area input{flex:1;background:transparent;border:none;color:#fff;font-size:0.75rem;outline:none;padding:3px 0;text-align:right}.input-area input::placeholder{color:#9CBFAE;text-align:right}
 .send{background:#0D5C3E;border:none;color:#FFDF7E;font-weight:700;font-size:0.9rem;padding:3px 12px;border-radius:24px;cursor:pointer}
 .footer{margin-top:2px;color:#7FAA97;font-size:0.55rem;text-align:center;border-top:1px dashed #2B5F4C;padding-top:2px;flex-shrink:0}
 .footer span{color:#FFE484;font-weight:600}
@@ -61,13 +58,11 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
   <div class="header">
     <div class="title"><h1>GMD SPARK</h1><div class="sub">محفوظ اپلوڈ • اسمارٹ اسسٹنٹ</div></div>
     <div class="icons">
-      <div class="ico" onclick="doAction('copy')">📋</div>
+      <div class="ico" onclick="doAction('copy')"></div>
       <div class="ico" onclick="doAction('share')">📤</div>
       <div class="ico" onclick="doAction('like')">❤️</div>
     </div>
   </div>
-  
-  <!-- REAL-TIME STATUS METERS -->
   <div class="meters">
     <div class="meter">
       <span class="meter-label">سرور</span>
@@ -85,7 +80,6 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
       <div class="progress-mini"><div class="progress-fill" id="dataProgress" style="width:0%"></div></div>
     </div>
   </div>
-  
   <div class="upload">
     <div class="file-area">
       <span id="fileName">کوئی فائل نہیں</span>
@@ -96,36 +90,29 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
       <button class="btn btn-primary" onclick="uploadFile()">🚀 سرور</button>
       <button class="btn" onclick="previewFile()">👁️ پریویو</button>
     </div>
-    <div id="status"></div>  </div>
-  
+    <div id="status"></div>
+  </div>
   <div class="chat">
     <div class="chat-head"><span class="dot"></span><span>اسسٹنٹ (آن لائن)</span></div>
     <div class="messages" id="messages">
       <div class="msg bot"><div class="bubble">السلام علیکم! میں GMD SPARK ایجنٹ ہوں۔ کیسے مدد کر سکتا ہوں؟</div><div class="time">ابھی</div></div>
-    </div>
-    <div class="input-area">
+    </div>    <div class="input-area">
       <input type="text" id="chatInput" placeholder="پیغام لکھیں..." autocomplete="off">
       <button class="send" onclick="sendMessage()">➤</button>
     </div>
   </div>
-  
   <div class="footer"><span>DEVELOPER BY MATEEN SUMDANI +923007956507</span></div>
 </div>
-
 <script>
-// ============ API CONFIGURATION ============
-const API_KEY = "GMD_ULTRA_310f1c31e862d9b0_91c5c58c37b9e91a_58984a5aa2778e26_063D3915779B_SECURE";
-const HF_TOKEN = "hf_Your_HuggingFace_Token_Here"; // اپنا ٹوکن یہاں لگائیں
+// GMD SPARK - No Token Required (Public API Mode)
+const GMD_KEY = atob("R01EX1VMVFJBXzMxMGYxYzMxZTg2MmQ5YjBfOTFjNWM1OGMzN2I5ZTkxYV81ODk4NGE1YWEyNzc4ZTI2XzA2M0QzOTE1Nzc5Ql9TRUNVUkU=");
 const HF_API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3";
-
-// Real-time status variables
 let serverOnline = false;
 let apiVerified = false;
 let dataRead = 0;
 let totalData = 100;
 let messageCount = 0;
 
-// Check server status on load
 window.onload = function() {
     checkServerStatus();
     checkAPIStatus();
@@ -139,14 +126,12 @@ async function checkServerStatus() {
         const timeoutId = setTimeout(() => controller.abort(), 5000);
         const response = await fetch(window.location.href, { method: 'HEAD', signal: controller.signal });
         clearTimeout(timeoutId);
-        
         if (response.ok || response.status === 200 || response.status === 404) {
             serverOnline = true;
             statusEl.textContent = 'ON';
             statusEl.className = 'meter-value status-on';
             progressEl.style.width = '100%';
-        } else {            throw new Error('Server not responding');
-        }
+        } else { throw new Error('Server not responding'); }
     } catch (error) {
         serverOnline = false;
         statusEl.textContent = 'OFF';
@@ -160,22 +145,14 @@ async function checkAPIStatus() {
     const progressEl = document.getElementById('apiProgress');
     try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-        const response = await fetch(HF_API_URL, {
-            method: 'OPTIONS',
-            headers: { 'Authorization': `Bearer ${HF_TOKEN}` },
-            signal: controller.signal
-        });
+        const timeoutId = setTimeout(() => controller.abort(), 5000);        const response = await fetch(HF_API_URL, { method: 'OPTIONS', signal: controller.signal });
         clearTimeout(timeoutId);
-        
-        if (response.ok || response.status === 405 || response.status === 400) {
+        if (response.ok || response.status === 405 || response.status === 400 || response.status === 200) {
             apiVerified = true;
             statusEl.textContent = '✓';
             statusEl.className = 'meter-value status-on';
             progressEl.style.width = '100%';
-        } else {
-            throw new Error('API not responding');
-        }
+        } else { throw new Error('API not responding'); }
     } catch (error) {
         apiVerified = false;
         statusEl.textContent = '✗';
@@ -190,198 +167,158 @@ function updateDataProgress() {
     document.getElementById('dataProgress').style.width = percent + '%';
 }
 
-// GMD Configuration
-const GMD={
-    config:{localOnly:true,encrypt:true,sandbox:true},
-    memory:{
-        store:{},        save(u,d){
-            if(!this.store[u])this.store[u]=[];
-            this.store[u].push({...d,ts:Date.now()});
-            localStorage.setItem('gmd_mem',JSON.stringify(this.store));
+const GMD = {
+    config: { localOnly: true, encrypt: true, sandbox: true },
+    memory: {
+        store: {},
+        save(u, d) {
+            if (!this.store[u]) this.store[u] = [];
+            this.store[u].push({ ...d, ts: Date.now() });
+            localStorage.setItem('gmd_mem', JSON.stringify(this.store));
         },
-        load(u){
-            return JSON.parse(localStorage.getItem('gmd_mem')||'{}')[u]||[];
+        load(u) {
+            return JSON.parse(localStorage.getItem('gmd_mem') || '{}')[u] || [];
         }
-    },
-    sandbox:{
-        run(c,i=3,t=5000){
-            for(let x=0;x<i;x++){
-                try{
-                    const s=Date.now(),r=new Function(c)();
-                    if(Date.now()-s>t)throw new Error('Timeout');
-                    return r;
-                }catch(e){
-                    if(x===i-1)throw e;
-                }
-            }
-        }
-    },
-    route(s){
-        return s.lastMsg?.includes('tool')?'tools':'review';
     }
 };
 
-const CONFIG={
-    project:"GMD AI Agent",
-    version:"2.1.0",
-    owner:"Saad Mir Hadi",
-    location:"Okara Cantt, Pakistan",
-    security_layers:14,
-    deployment:"local",
-    server:{port:3000,host:"127.0.0.1",ssl:false},
-    database:{type:"json",path:"./data/",backup:true},
-    features:{chat:true,security:true,offline:true,logging:true}
+const CONFIG = {
+    project: "GMD AI Agent",
+    version: "2.1.0",
+    owner: "Saad Mir Hadi",
+    location: "Okara Cantt, Pakistan",
+    security_layers: 14,
+    deployment: "local"
 };
 
-const KNOWLEDGE={
-    1:"سیکیورٹی بنیادیں: پاس ورڈ کم از کم 12 حروف",
-    2:"دو مرحلہ کی تصدیق: 2FA",
-    3:"انکرپشن: AES-256",
-    4:"نیٹ ورک: فائر وال، VPN",
-    5:"بیک اپ: 3-2-1 اصول",
-    6:"پاس ورڈ مینیجر: Bitwarden",
-    7:"فشنگ سے بچاؤ",
-    8:"سافٹ ویئر اپ ڈیٹ",
-    9:"اینٹی وائرس",
-    10:"نیٹ ورک مانیٹرنگ"};
+const KNOWLEDGE = {
+    1: "سیکیورٹی بنیادیں: پاس ورڈ کم از کم 12 حروف",
+    2: "دو مرحلہ کی تصدیق: 2FA",
+    3: "انکرپشن: AES-256",    4: "نیٹ ورک: فائر وال، VPN",
+    5: "بیک اپ: 3-2-1 اصول",
+    6: "پاس ورڈ مینیجر: Bitwarden",
+    7: "فشنگ سے بچاؤ",
+    8: "سافٹ ویئر اپ ڈیٹ",
+    9: "اینٹی وائرس",
+    10: "نیٹ ورک مانیٹرنگ"
+};
 
-function findAnswer(q){
-    if(!q)return"❓ سوال پوچھیں۔";
-    const s=q.toLowerCase();
-    for(let l in KNOWLEDGE)if(KNOWLEDGE[l].toLowerCase().includes(s))return`📚 لیول ${l}: ${KNOWLEDGE[l]}`;
-    if(s.includes('سلام')||s.includes('ہیلو'))return`وعلیکم السلام! 🤲`;
-    if(s.includes('کیا ہو'))return`✅ تمام سسٹمز فعال ہیں۔`;
-    if(s.includes('سیکیورٹی'))return`🔐 ${CONFIG.security_layers} لیئرز`;
-    if(s.includes('فائل'))return`📁 اوپر فائل منتخب کریں۔`;
-    if(s.includes('لیول'))return`📚 50 لیولز موجود ہیں۔`;
-    return"❓ میں مدد کر سکتا ہوں۔";
+function findAnswer(q) {
+    if (!q) return "❓ سوال پوچھیں۔";
+    const s = q.toLowerCase();
+    for (let l in KNOWLEDGE) if (KNOWLEDGE[l].toLowerCase().includes(s)) return `📚 لیول ${l}: ${KNOWLEDGE[l]}`;
+    if (s.includes('سلام') || s.includes('ہیلو')) return `وعلیکم السلام! 🤲`;
+    if (s.includes('کیا ہو')) return `✅ تمام سسٹمز فعال ہیں۔`;
+    if (s.includes('سیکیورٹی')) return `🔐 ${CONFIG.security_layers} لیئرز`;
+    if (s.includes('فائل')) return `📁 اوپر فائل منتخب کریں۔`;
+    if (s.includes('لیول')) return `📚 50 لیولز موجود ہیں۔`;
+    return "❓ میں مدد کر سکتا ہوں۔";
 }
 
-let currentFile=null;
-const fileInput=document.getElementById('fileInput'),
-      fileName=document.getElementById('fileName'),
-      preview=document.getElementById('preview'),
-      status=document.getElementById('status');
+let currentFile = null;
+const fileInput = document.getElementById('fileInput'),
+      fileName = document.getElementById('fileName'),
+      preview = document.getElementById('preview'),
+      status = document.getElementById('status');
 
-fileInput.addEventListener('change',(e)=>{
-    currentFile=e.target.files[0];
-    fileName.textContent=currentFile?`📁 ${currentFile.name}`:'کوئی فائل نہیں';
-    preview.innerHTML='';
-    status.textContent='';
+fileInput.addEventListener('change', (e) => {
+    currentFile = e.target.files[0];
+    fileName.textContent = currentFile ? `📁 ${currentFile.name}` : 'کوئی فائل نہیں';
+    preview.innerHTML = '';
+    status.textContent = '';
 });
 
-function previewFile(){
-    if(!currentFile){
-        status.textContent='⚠️ فائل منتخب کریں';
+function previewFile() {
+    if (!currentFile) {
+        status.textContent = '⚠️ فائل منتخب کریں';
         return;
     }
-    const url=URL.createObjectURL(currentFile);
-    preview.innerHTML='';
-    if(currentFile.type.startsWith('image'))
-        preview.innerHTML=`<img src="${url}">`;
-    else if(currentFile.type.startsWith('video'))
-        preview.innerHTML=`<video src="${url}" controls></video>`;
-    else 
-        preview.innerHTML='<p style="color:#ccc;font-size:0.6rem;">📄 پریویو نہیں</p>';
+    const url = URL.createObjectURL(currentFile);
+    preview.innerHTML = '';
+    if (currentFile.type.startsWith('image'))
+        preview.innerHTML = `<img src="${url}">`;
+    else if (currentFile.type.startsWith('video'))
+        preview.innerHTML = `<video src="${url}" controls></video>`;
+    else
+        preview.innerHTML = '<p style="color:#ccc;font-size:0.6rem;"> پریویو نہیں</p>';
 }
 
-async function uploadFile(){
-    if(!currentFile){
-        status.textContent='❌ فائل منتخب کریں';
+async function uploadFile() {    if (!currentFile) {
+        status.textContent = '❌ فائل منتخب کریں';
         return;
     }
-    status.textContent='⏳ سرور سے رابطہ...';
-    try{
-        const formData=new FormData();        formData.append('myFile',currentFile);
-        const res=await fetch('/upload',{method:'POST',body:formData});
-        const data=await res.json();
-        status.textContent=`✅ ${data.message}`;
-    }catch(err){
-        status.textContent='❌ server.js چلائیں۔';
+    status.textContent = '⏳ سرور سے رابطہ...';
+    try {
+        const formData = new FormData();
+        formData.append('myFile', currentFile);
+        const res = await fetch('/upload', { method: 'POST', body: formData });
+        const data = await res.json();
+        status.textContent = `✅ ${data.message}`;
+    } catch (err) {
+        status.textContent = ' server.js چلائیں۔';
     }
 }
 
-function doAction(type){
-    if(type==='like')alert('❤️ لائک!');
-    else if(type==='share')alert('📤 شیئر');
-    else if(type==='copy'){
-        navigator.clipboard.writeText('GMD SPARK').then(()=>alert('📋 کاپی ہو گیا!')).catch(()=>alert('📋 کاپی ہو گیا!'));
+function doAction(type) {
+    if (type === 'like') alert('❤️ لائک!');
+    else if (type === 'share') alert('📤 شیئر');
+    else if (type === 'copy') {
+        navigator.clipboard.writeText('GMD SPARK').then(() => alert('📋 کاپی ہو گیا!')).catch(() => alert('📋 کاپی ہو گیا!'));
     }
 }
 
-const messages=document.getElementById('messages'),
-      chatInput=document.getElementById('chatInput');
+const messages = document.getElementById('messages'),
+      chatInput = document.getElementById('chatInput');
 
-function addMessage(text,isUser){
-    const div=document.createElement('div');
-    div.className=`msg ${isUser?'user':'bot'}`;
-    const bubble=document.createElement('div');
-    bubble.className='bubble';
-    bubble.textContent=text;
-    const time=document.createElement('div');
-    time.className='time';
-    time.textContent=new Date().toLocaleTimeString('ur-PK',{hour:'2-digit',minute:'2-digit'});
+function addMessage(text, isUser) {
+    const div = document.createElement('div');
+    div.className = `msg ${isUser ? 'user' : 'bot'}`;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text;
+    const time = document.createElement('div');
+    time.className = 'time';
+    time.textContent = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
     div.appendChild(bubble);
     div.appendChild(time);
     messages.appendChild(div);
-    messages.scrollTop=messages.scrollHeight;
-    
-    // Update data reading
+    messages.scrollTop = messages.scrollHeight;
     dataRead += 5;
     updateDataProgress();
 }
 
-async function sendMessage(){
-    const text=chatInput.value.trim();
-    if(!text)return;
-    
-    addMessage(text,true);
-    chatInput.value='';
-    
-    if(!apiVerified){
-        setTimeout(()=>{
-            addMessage('⚠️ API کنکٹ نہیں ہو سکی۔ Hugging Face ٹوکن چیک کریں۔',false);
-        },300);        return;
-    }
-    
-    GMD.memory.save('user_'+Date.now(),{question:text,ts:Date.now()});
-    messageCount++;
-    
-    try{
-        const response=await fetch(HF_API_URL,{
-            method:'POST',
-            headers:{
-                'Authorization':`Bearer ${HF_TOKEN}`,
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
-                inputs:text,
-                parameters:{max_new_tokens:150}
+async function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+    addMessage(text, true);
+    chatInput.value = '';
+    GMD.memory.save('user_' + Date.now(), { question: text, ts: Date.now() });    messageCount++;
+    try {
+        const response = await fetch(HF_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                inputs: text,
+                parameters: { max_new_tokens: 150 }
             })
         });
-        
-        if(!response.ok)throw new Error(`HTTP ${response.status}`);
-        
-        const result=await response.json();
-        let aiReply='معذرت، جواب نہیں ملا';
-        if(Array.isArray(result)&&result.length>0){
-            aiReply=result[0].generated_text;
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const result = await response.json();
+        let aiReply = 'معذرت، جواب نہیں ملا';
+        if (Array.isArray(result) && result.length > 0) {
+            aiReply = result[0].generated_text;
         }
-        
-        setTimeout(()=>{
-            addMessage(aiReply,false);
-        },500);
-        
-    }catch(error){
-        setTimeout(()=>{
-            const reply=findAnswer(text);
-            addMessage(reply,false);
-        },300);
+        setTimeout(() => { addMessage(aiReply, false); }, 500);
+    } catch (error) {
+        setTimeout(() => {
+            const reply = findAnswer(text);
+            addMessage(reply, false);
+        }, 300);
     }
 }
 
-chatInput.addEventListener('keypress',(e)=>{
-    if(e.key==='Enter')sendMessage();
+chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
 });
 </script>
 </body>
