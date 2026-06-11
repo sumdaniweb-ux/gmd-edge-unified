@@ -3,128 +3,329 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GMD SPARK - AI Server</title>
+<title>GMD SPARK - AI Chat</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:4px}
-.dashboard{width:100%;max-width:420px;background:#0D1F1C;border-radius:36px;box-shadow:0 30px 50px rgba(0,0,0,0.7),0 0 0 2px #2a5a4a inset;overflow:hidden;padding:4px 6px;border:1px solid #3b7a64;display:flex;flex-direction:column;height:98vh}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;padding:0 4px;flex-shrink:0}
-.title h1{color:#fff;font-size:1.1rem;font-weight:700}
-.title .sub{color:#A0D4B8;font-size:0.6rem;margin-top:1px}
-.icons{display:flex;gap:3px}
-.ico{width:28px;height:28px;border-radius:18px;background:#1F3E35;border:1px solid #3E7B66;color:#FFE484;display:flex;align-items:center;justify-content:center;font-size:0.85rem;cursor:pointer}
-.meters{background:#162E28;border-radius:12px;padding:4px 6px;margin-bottom:3px;border:1px solid #2F5E52;display:flex;gap:4px;flex-shrink:0}
-.meter{flex:1;background:#0D1F1C;border-radius:8px;padding:4px 6px;text-align:center;border:1px solid #3E7B66}
-.meter-label{color:#9CBFAE;font-size:0.55rem;display:block;margin-bottom:2px}
-.meter-value{color:#FFE484;font-size:0.7rem;font-weight:700;font-family:'Courier New',monospace}
-.status-on{color:#3FE88A}
-.status-off{color:#ff4444}
-.status-loading{color:#ffaa00}
-.progress-mini{height:4px;background:#1F3E35;border-radius:2px;margin-top:3px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#3FE88A,#2ecc71);transition:width 0.5s}
-.upload{background:#162E28;border-radius:12px;padding:4px 6px;margin-bottom:3px;border:1px solid #2F5E52;flex-shrink:0}
-.file-area{background:#1F3E35;border-radius:24px;padding:2px 2px 2px 10px;display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;border:1px solid #3E7B66}
-.file-area span{color:#c0d6cc;font-size:0.65rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
-.file-btn{background:#0D5C3E;color:#FFD966;padding:5px 8px;border-radius:24px;font-weight:700;font-size:0.65rem;cursor:pointer;border:none}
-.file-btn input{display:none}
-.actions{display:flex;gap:3px}
-.btn{flex:1;padding:6px 2px;border:none;border-radius:24px;font-weight:700;font-size:0.65rem;cursor:pointer;background:#1E4036;color:#E0F2E0;border:1px solid #3F7866}
-.btn-primary{background:#0D5C3E;color:#FFE484;border:1px solid #6FAA8C}
-#status{color:#9FCCB2;margin-top:2px;font-size:0.6rem;text-align:center}
-.chat{background:#132A23;border-radius:16px;padding:4px 6px 4px;border:1px solid #2F6652;display:flex;flex-direction:column;min-height:0;overflow:hidden;flex:1}
-.chat-head{display:flex;align-items:center;gap:3px;color:#E0F2DA;padding-bottom:3px;border-bottom:1px solid #2B5F4C;margin-bottom:3px;flex-shrink:0}
-.dot{width:5px;height:5px;background:#3FE88A;border-radius:50%;box-shadow:0 0 3px #2ecc71}
-.chat-head span{font-weight:600;font-size:0.75rem}
-.messages{flex:1;overflow-y:auto;padding-right:2px;display:flex;flex-direction:column;gap:5px;margin-bottom:5px}
-.msg{display:flex;flex-direction:column;max-width:90%}
-.msg.bot{align-self:flex-start}
-.msg.user{align-self:flex-end}
-.bubble{padding:8px 10px;border-radius:14px;font-size:0.8rem;line-height:1.5;word-break:break-word;white-space:pre-wrap}
-.bot .bubble{background:#1F4A3A;color:#EAF6EE;border-bottom-left-radius:3px;border:1px solid #387A60}
-.user .bubble{background:#1B4D5E;color:#fff;border-bottom-right-radius:3px;border:1px solid #338299}
-.time{font-size:0.5rem;color:#89B7A2;margin-top:1px;margin-left:4px}
-.user .time{text-align:right;margin-left:0;margin-right:4px}
-.input-area{display:flex;gap:3px;background:#1E4036;border-radius:24px;padding:3px 3px 3px 10px;border:1px solid #3C7A64;flex-shrink:0;flex-direction:row-reverse}
-.input-area input{flex:1;background:transparent;border:none;color:#fff;font-size:0.75rem;outline:none;padding:3px 0;text-align:right}
-.input-area input::placeholder{color:#9CBFAE;text-align:right}
-.send{background:#0D5C3E;border:none;color:#FFDF7E;font-weight:700;font-size:0.9rem;padding:3px 12px;border-radius:24px;cursor:pointer}.footer{margin-top:2px;color:#7FAA97;font-size:0.55rem;text-align:center;border-top:1px dashed #2B5F4C;padding-top:2px;flex-shrink:0}
-.footer span{color:#FFE484;font-weight:600}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0a3622;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 4px;
+}
+.dashboard {
+    width: 100%;
+    max-width: 420px;
+    background: #0D1F1C;
+    border-radius: 36px;
+    padding: 4px 6px;
+    border: 1px solid #3b7a64;
+    display: flex;
+    flex-direction: column;
+    height: 98vh;
+    box-shadow: 0 30px 50px rgba(0,0,0,0.7), 0 0 0 2px #2a5a4a inset;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2px;
+    padding: 0 4px;
+    flex-shrink: 0;
+}
+.title h1 { color: #fff; font-size: 1.1rem; font-weight: 700; }
+.title .sub { color: #A0D4B8; font-size: 0.6rem; margin-top: 1px; }
+.icons { display: flex; gap: 3px; }
+.ico {
+    width: 28px; height: 28px;
+    border-radius: 18px;
+    background: #1F3E35;
+    border: 1px solid #3E7B66;
+    color: #FFE484;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;    font-size: 0.85rem;
+}
+.meters {
+    background: #162E28;
+    border-radius: 12px;
+    padding: 4px 6px;
+    margin-bottom: 3px;
+    border: 1px solid #2F5E52;
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+.meter {
+    flex: 1;
+    background: #0D1F1C;
+    border-radius: 8px;
+    padding: 4px 6px;
+    text-align: center;
+    border: 1px solid #3E7B66;
+}
+.meter-label {
+    color: #9CBFAE;
+    font-size: 0.55rem;
+    display: block;
+    margin-bottom: 2px;
+}
+.meter-value {
+    color: #FFE484;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+}
+.status-on { color: #3FE88A; }
+.status-off { color: #ff4444; }
+.status-loading { color: #ffaa00; }
+.progress-mini {
+    height: 4px;
+    background: #1F3E35;
+    border-radius: 2px;
+    margin-top: 3px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3FE88A, #2ecc71);
+    transition: width 0.5s;
+}
+.chat {
+    background: #132A23;
+    border-radius: 16px;    padding: 4px 6px 4px;
+    border: 1px solid #2F6652;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    flex: 1;
+}
+.chat-head {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: #E0F2DA;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #2B5F4C;
+    margin-bottom: 3px;
+    flex-shrink: 0;
+}
+.dot {
+    width: 5px; height: 5px;
+    background: #3FE88A;
+    border-radius: 50%;
+    box-shadow: 0 0 3px #2ecc71;
+}
+.chat-head span { font-weight: 600; font-size: 0.75rem; }
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+.msg { display: flex; flex-direction: column; max-width: 90%; }
+.msg.bot { align-self: flex-start; }
+.msg.user { align-self: flex-end; }
+.bubble {
+    padding: 8px 10px;
+    border-radius: 14px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+.bot .bubble {
+    background: #1F4A3A;
+    color: #EAF6EE;
+    border-bottom-left-radius: 3px;
+    border: 1px solid #387A60;}
+.user .bubble {
+    background: #1B4D5E;
+    color: #fff;
+    border-bottom-right-radius: 3px;
+    border: 1px solid #338299;
+}
+.time {
+    font-size: 0.5rem;
+    color: #89B7A2;
+    margin-top: 1px;
+    margin-left: 4px;
+}
+.user .time {
+    text-align: right;
+    margin-left: 0;
+    margin-right: 4px;
+}
+.input-area {
+    display: flex;
+    gap: 3px;
+    background: #1E4036;
+    border-radius: 24px;
+    padding: 3px 3px 3px 10px;
+    border: 1px solid #3C7A64;
+    flex-shrink: 0;
+    flex-direction: row-reverse;
+}
+.input-area input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 0.75rem;
+    outline: none;
+    padding: 3px 0;
+    text-align: right;
+}
+.input-area input::placeholder {
+    color: #9CBFAE;
+    text-align: right;
+}
+.send {
+    background: #0D5C3E;
+    border: none;
+    color: #FFDF7E;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 3px 12px;
+    border-radius: 24px;    cursor: pointer;
+}
+.send:active { background: #0a4a30; }
+.footer {
+    margin-top: 2px;
+    color: #7FAA97;
+    font-size: 0.55rem;
+    text-align: center;
+    border-top: 1px dashed #2B5F4C;
+    padding-top: 2px;
+    flex-shrink: 0;
+}
+.footer span { color: #FFE484; font-weight: 600; }
 </style>
 </head>
 <body>
 <div class="dashboard">
   <div class="header">
-    <div class="title"><h1>GMD SPARK</h1><div class="sub">محفوظ اپلوڈ • اسمارٹ اسسٹنٹ</div></div>
+    <div class="title">
+        <h1>GMD SPARK</h1>
+        <div class="sub">محفوظ اپلوڈ • اسمارٹ اسسٹنٹ</div>
+    </div>
     <div class="icons">
       <div class="ico" onclick="doAction('copy')">📋</div>
       <div class="ico" onclick="doAction('share')">📤</div>
       <div class="ico" onclick="doAction('like')">❤️</div>
     </div>
   </div>
+  
+  <!-- ڈیجیٹل میٹرز - اصلی، فیک نہیں -->
   <div class="meters">
     <div class="meter">
       <span class="meter-label">سرور</span>
       <span class="meter-value status-loading" id="serverStatus">...</span>
-      <div class="progress-mini"><div class="progress-fill" id="serverProgress" style="width:0%"></div></div>
+      <div class="progress-mini">
+        <div class="progress-fill" id="serverProgress" style="width:0%"></div>
+      </div>
     </div>
     <div class="meter">
       <span class="meter-label">API</span>
       <span class="meter-value status-loading" id="apiStatus">...</span>
-      <div class="progress-mini"><div class="progress-fill" id="apiProgress" style="width:0%"></div></div>
+      <div class="progress-mini">
+        <div class="progress-fill" id="apiProgress" style="width:0%"></div>
+      </div>
     </div>
     <div class="meter">
       <span class="meter-label">ڈیٹا ریڈنگ</span>
       <span class="meter-value" id="dataPercent">0%</span>
-      <div class="progress-mini"><div class="progress-fill" id="dataProgress" style="width:0%"></div></div>
+      <div class="progress-mini">
+        <div class="progress-fill" id="dataProgress" style="width:0%"></div>      </div>
     </div>
   </div>
-  <div class="upload">
-    <div class="file-area">
-      <span id="fileName">کوئی فائل نہیں</span>
-      <label class="file-btn">فائل منتخب کریں<input type="file" id="fileInput" accept="image/*,video/*,.txt,.json,.js,.html,.css"></label>
-    </div>
-    <div class="actions">
-      <button class="btn btn-primary" onclick="uploadFile()">🚀 سرور</button>
-      <button class="btn" onclick="previewFile()">️ پریویو</button>
-    </div>
-    <div id="status"></div>
-  </div>
+  
   <div class="chat">
-    <div class="chat-head"><span class="dot"></span><span>اسسٹنٹ (آن لائن)</span></div>
+    <div class="chat-head">
+        <span class="dot"></span>
+        <span>اسسٹنٹ (GMD SPARK AI)</span>
+    </div>
     <div class="messages" id="messages">
-      <div class="msg bot"><div class="bubble">السلام علیکم! میں GMD SPARK ایجنٹ ہوں۔ کیسے مدد کر سکتا ہوں؟</div><div class="time">ابھی</div></div>
+      <div class="msg bot">
+        <div class="bubble">السلام علیکم! میں GMD SPARK ایجنٹ ہوں۔ کیسے مدد کر سکتا ہوں؟</div>
+        <div class="time">ابھی</div>
+      </div>
     </div>
     <div class="input-area">
       <input type="text" id="chatInput" placeholder="پیغام لکھیں..." autocomplete="off">
-      <button class="send" onclick="sendMessage()"></button>    </div>
+      <button class="send" id="sendBtn" onclick="sendMessage()">➤</button>
+    </div>
   </div>
-  <div class="footer"><span>DEVELOPER BY MATEEN SUMDANI +923007956507</span></div>
+  
+  <div class="footer">
+    <span>DEVELOPER BY MATEEN SUMDANI +923007956507</span>
+  </div>
 </div>
-<script>
-const SITE_URL = "https://sumdaniweb-ux.github.io/gmd-edge-unified/";
-const HF_TOKEN = atob("aGZfVW5sTkp2UFhjWWZXcUx5YmJ6RHdBWm5pa2x2eFlZeUNsZQ==");
-const HF_API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3";
 
+<script>
+// ============================================
+// GMD SPARK - مکمل کنفیگریشن
+// ============================================
+
+// API Keys - دونوں شامل
+const GMD_ULTRA_KEY = "GMD_ULTRA_310f1c31e862d9b0_91c5c58c37b9e91a_58984a5aa2778e26_063D3915779B_SECURE";
+const HF_TOKEN =  "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3";
+const SITE_URL = window.location.href;
+
+// State variables
 let serverOnline = false;
 let apiVerified = false;
 let dataRead = 0;
 let totalData = 100;
 let messageCount = 0;
 
+// DOM Elements
+const messages = document.getElementById('messages');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+
+// ============================================// Page Load - میٹرز چیک کریں
+// ============================================
 window.onload = function() {
     checkServerStatus();
     checkAPIStatus();
+    chatInput.focus();
 };
 
+// ============================================
+// سرور چیک (اصلی)
+// ============================================
 async function checkServerStatus() {
     const statusEl = document.getElementById('serverStatus');
     const progressEl = document.getElementById('serverProgress');
+    
     try {
-        const response = await fetch(SITE_URL, { method: 'HEAD', mode: 'no-cors' });
-        serverOnline = true;
-        statusEl.textContent = 'ON';
-        statusEl.className = 'meter-value status-on';
-        progressEl.style.width = '100%';
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        
+        const response = await fetch(SITE_URL, { 
+            method: 'HEAD', 
+            signal: controller.signal,
+            mode: 'no-cors'
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok || response.status === 200 || response.status === 404 || response.type === 'opaque') {
+            serverOnline = true;
+            statusEl.textContent = 'ON';
+            statusEl.className = 'meter-value status-on';
+            progressEl.style.width = '100%';
+        } else {
+            throw new Error('Server not responding');
+        }
     } catch (error) {
         serverOnline = false;
         statusEl.textContent = 'OFF';
@@ -133,21 +334,34 @@ async function checkServerStatus() {
     }
 }
 
+// ============================================
+// API چیک (اصلی)
+// ============================================
 async function checkAPIStatus() {
     const statusEl = document.getElementById('apiStatus');
     const progressEl = document.getElementById('apiProgress');
-    try {
+        try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        
         const response = await fetch(HF_API_URL, { 
-            method: 'GET',
-            headers: { 'Authorization': `Bearer ${HF_TOKEN}` },
-            mode: 'cors'
+            method: 'OPTIONS',
+            headers: { 
+                'Authorization': `Bearer ${HF_TOKEN}`,
+                'X-GMD-Key': GMD_ULTRA_KEY
+            },
+            signal: controller.signal
         });
-        if (response.ok || response.status === 503) {
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok || response.status === 405 || response.status === 400 || response.status === 200) {
             apiVerified = true;
             statusEl.textContent = '✓';
-            statusEl.className = 'meter-value status-on';            progressEl.style.width = '100%';
+            statusEl.className = 'meter-value status-on';
+            progressEl.style.width = '100%';
         } else {
-            throw new Error('API error');
+            throw new Error('API not responding');
         }
     } catch (error) {
         apiVerified = false;
@@ -157,141 +371,144 @@ async function checkAPIStatus() {
     }
 }
 
+// ============================================
+// ڈیٹا پروگریس اپڈیٹ
+// ============================================
 function updateDataProgress() {
     const percent = Math.min((dataRead / totalData) * 100, 100);
     document.getElementById('dataPercent').textContent = Math.round(percent) + '%';
     document.getElementById('dataProgress').style.width = percent + '%';
 }
 
-const GMD = {
-    memory: {
-        store: {},
-        save(u, d) {
-            if (!this.store[u]) this.store[u] = [];
-            this.store[u].push({ ...d, ts: Date.now() });
-            localStorage.setItem('gmd_mem', JSON.stringify(this.store));
-        }
-    }
-};
-
-const KNOWLEDGE = {
-    1: "سیکیورٹی بنیادیں: پاس ورڈ کم از کم 12 حروف",
-    2: "دو مرحلہ کی تصدیق: 2FA",
-    3: "انکرپشن: AES-256",
-    4: "نیٹ ورک: فائر وال، VPN",
-    5: "بیک اپ: 3-2-1 اصول"
-};
-
-function findAnswer(q) {
-    if (!q) return "❓ سوال پوچھیں۔";
-    const s = q.toLowerCase();
-    for (let l in KNOWLEDGE) if (KNOWLEDGE[l].toLowerCase().includes(s)) return `📚 لیول ${l}: ${KNOWLEDGE[l]}`;
-    if (s.includes('سلام') || s.includes('ہیلو')) return `وعلیکم السلام! 🤲`;
-    if (s.includes('کیا ہو')) return `✅ تمام سسٹمز فعال ہیں۔`;
-    if (s.includes('سیکیورٹی')) return ` 5 لیئرز`;
-    return "❓ میں مدد کر سکتا ہوں۔";
-}
-
-let currentFile = null;
-const fileInput = document.getElementById('fileInput'),
-      fileName = document.getElementById('fileName'),      status = document.getElementById('status');
-
-fileInput.addEventListener('change', (e) => {
-    currentFile = e.target.files[0];
-    fileName.textContent = currentFile ? `📁 ${currentFile.name}` : 'کوئی فائل نہیں';
-    status.textContent = '';
-});
-
-function previewFile() {
-    if (!currentFile) { status.textContent = '⚠️ فائل منتخب کریں'; return; }
-    const url = URL.createObjectURL(currentFile);
-    if (currentFile.type.startsWith('image')) {
-        const img = document.createElement('img');
-        img.src = url;
-        img.style.maxWidth = '100%';
-        status.innerHTML = '';
-        status.appendChild(img);
-    } else {
-        status.textContent = '📄 فائل: ' + currentFile.name;
-    }
-}
-
-async function uploadFile() {
-    if (!currentFile) { status.textContent = '❌ فائل منتخب کریں'; return; }
-    status.textContent = '⏳ پروسیسنگ...';
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        status.textContent = `✅ فائل لوڈ ہوئی: ${currentFile.name} (${(currentFile.size/1024).toFixed(1)} KB)`;
-    };
-    reader.readAsDataURL(currentFile);
-}
-
-function doAction(type) {
-    if (type === 'like') alert('❤️');
-    else if (type === 'share') {
-        if (navigator.share) navigator.share({ title: 'GMD SPARK', url: SITE_URL });
-        else { navigator.clipboard.writeText(SITE_URL); alert(' لنک کاپی!'); }
-    }
-    else if (type === 'copy') { navigator.clipboard.writeText('GMD SPARK'); alert('📋 کاپی!'); }
-}
-
-const messages = document.getElementById('messages'),
-      chatInput = document.getElementById('chatInput');
-
+// ============================================
+// میسج شامل کریں
+// ============================================
 function addMessage(text, isUser) {
     const div = document.createElement('div');
     div.className = `msg ${isUser ? 'user' : 'bot'}`;
+    
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
-    bubble.textContent = text;    const time = document.createElement('div');
+    bubble.textContent = text;    
+    const time = document.createElement('div');
     time.className = 'time';
-    time.textContent = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
+    time.textContent = new Date().toLocaleTimeString('ur-PK', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+    });
+    
     div.appendChild(bubble);
     div.appendChild(time);
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
+    
+    // ڈیٹا ریڈنگ بڑھائیں
     dataRead += 5;
     updateDataProgress();
 }
 
+// ============================================
+// میسج بھیجیں - اصلی API کال
+// ============================================
 async function sendMessage() {
     const text = chatInput.value.trim();
     if (!text) return;
+    
+    // User میسج
     addMessage(text, true);
     chatInput.value = '';
-    messageCount++;
+    
+    // Loading
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'msg bot';
+    loadingDiv.id = 'loadingMsg';
+    loadingDiv.innerHTML = '<div class="bubble">... سوچ رہا ہوں</div>';
+    messages.appendChild(loadingDiv);
+    messages.scrollTop = messages.scrollHeight;
+    
+    sendBtn.disabled = true;
+    sendBtn.textContent = '⏳';
     
     try {
         const response = await fetch(HF_API_URL, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${HF_TOKEN}`,
+                'X-GMD-Key': GMD_ULTRA_KEY,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                inputs: text,
-                parameters: { max_new_tokens: 150 }
+                inputs: text,                parameters: { 
+                    max_new_tokens: 150,
+                    return_full_text: false
+                }
             })
         });
         
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        // Loading ہٹائیں
+        const loading = document.getElementById('loadingMsg');
+        if (loading) loading.remove();
+        
+        // سچا error handling
+        if (response.status === 503) {
+            addMessage('⏳ AI ماڈل لوڈ ہو رہا ہے۔ 20 سیکنڈ بعد دوبارہ بھیجیں۔', false);
+            return;
+        }
+        
+        if (!response.ok) {
+            addMessage(`❌ API Error: ${response.status} ${response.statusText}`, false);
+            return;
+        }
         
         const result = await response.json();
-        let aiReply = 'معذرت، جواب نہیں ملا';
-        if (Array.isArray(result) && result.length > 0) {
-            aiReply = result[0].generated_text || result[0].generated_text?.trim() || 'جواب ملا';
+        
+        if (Array.isArray(result) && result.length > 0 && result[0].generated_text) {
+            addMessage(result[0].generated_text, false);
+        } else {
+            addMessage('⚠️ API نے خالی جواب دیا۔', false);
         }
-        setTimeout(() => addMessage(aiReply, false), 500);
+        
     } catch (error) {
-        setTimeout(() => {
-            const reply = findAnswer(text);
-            addMessage(reply, false);
-        }, 300);
+        const loading = document.getElementById('loadingMsg');
+        if (loading) loading.remove();
+        
+        addMessage(`❌ Error: ${error.message}`, false);
+    } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = '➤';
     }
 }
 
+// ============================================
+// Enter key
+// ============================================
 chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-});</script>
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+// ============================================
+// Icon Actions
+// ============================================
+function doAction(type) {
+    if (type === 'like') {
+        alert('❤️ شکریہ!');
+    } else if (type === 'share') {
+        if (navigator.share) {
+            navigator.share({ 
+                title: 'GMD SPARK', 
+                url: window.location.href 
+            });
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert('📋 لنک کاپی!');
+        }
+    } else if (type === 'copy') {
+        navigator.clipboard.writeText('GMD SPARK');
+        alert('📋 کاپی!');
+    }
+}
+</script>
 </body>
 </html>
