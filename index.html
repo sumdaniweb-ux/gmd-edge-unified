@@ -8,9 +8,15 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:4px}
 .dashboard{width:100%;max-width:420px;background:#0D1F1C;border-radius:36px;padding:4px 6px;border:1px solid #3b7a64;display:flex;flex-direction:column;height:98vh;box-shadow:0 30px 50px rgba(0,0,0,0.7),0 0 0 2px #2a5a4a inset}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;padding:0 4px;flex-shrink:0}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;padding:0 4px;flex-shrink:0; position: relative;}
 .title h1{color:#fff;font-size:1.1rem;font-weight:700}
 .title .sub{color:#A0D4B8;font-size:0.6rem;margin-top:1px}
+
+/* ماڈل سلیکٹر اسٹائل */
+.modelSelector{position:absolute;left:0;top:5px;z-index:100}
+select{background:#1F3E35;color:#FFE484;border:1px solid #3E7B66;border-radius:8px;padding:4px 8px;font-size:0.7rem;font-family:'Segoe UI',sans-serif; cursor: pointer;}
+.modelIndicator{position:absolute;right:80px;top:8px;font-size:0.65rem;color:#3FE88A; font-weight: bold;}
+
 .icons{display:flex;gap:3px}
 .ico{width:28px;height:28px;border-radius:18px;background:#1F3E35;border:1px solid #3E7B66;color:#FFE484;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem}
 .meters{background:#162E28;border-radius:12px;padding:4px 6px;margin-bottom:3px;border:1px solid #2F5E52;display:flex;gap:4px;flex-shrink:0}
@@ -41,13 +47,28 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
 .send{background:#0D5C3E;border:none;color:#FFDF7E;font-weight:700;font-size:0.9rem;padding:3px 12px;border-radius:24px;cursor:pointer}
 .send:active{background:#0a4a30}
 .footer{margin-top:2px;color:#7FAA97;font-size:0.55rem;text-align:center;border-top:1px dashed #2B5F4C;padding-top:2px;flex-shrink:0}
-.footer span{color:#FFE484;font-weight:600}
-</style>
+.footer span{color:#FFE484;font-weight:600}.status-text{font-size:0.45rem;color:#7CA394;margin-top:1px}</style>
 </head>
 <body>
 <div class="dashboard">
   <div class="header">
-    <div class="title">        <h1>GMD SPARK</h1>        <div class="sub">محفوظ اپلوڈ • اسمارٹ اسسٹنٹ</div>
+    <!-- ✅ ماڈل سلیکٹر (بائیں طرف) -->
+    <div class="modelSelector">
+      <select id="modelSelect" onchange="changeModel()">
+        <option value="gmdspark" selected>🌟 GMD SPARK AI</option>
+        <option value="qwen">🔹 Qwen Coder</option>
+        <option value="deepseek">⚡ DeepSeek Coder</option>
+        <!-- ✅ Phind ہٹا کر CodeLlama لگا دیا گیا -->
+        <option value="codellama">🦙 CodeLlama-7B</option>
+      </select>
+    </div>
+    
+    <!-- ✅ ماڈل انڈیکیٹر (دائیں طرف) -->
+    <div class="modelIndicator" id="modelIndicator">ماڈل: GMD SPARK AI</div>
+    
+    <div class="title">
+        <h1>GMD SPARK</h1>
+        <div class="sub">محفوظ اپلوڈ • اسمارٹ اسسٹنٹ</div>
     </div>
     <div class="icons">
       <div class="ico" onclick="doAction('copy')">📋</div>
@@ -56,29 +77,30 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
     </div>
   </div>
   
-  <!-- ✅ سچے اور نیوٹرل میٹرز -->
+  <!-- ✅ میٹرز -->
   <div class="meters">
     <div class="meter">
       <span class="meter-label">سرور</span>
       <span class="meter-value status-loading" id="serverStatus">---</span>
       <div class="progress-mini"><div class="progress-fill" id="serverProgress" style="width:0%"></div></div>
+      <span class="status-text" id="serverDetail">جاری...</span>
     </div>
     <div class="meter">
       <span class="meter-label">API</span>
       <span class="meter-value status-loading" id="apiStatus">---</span>
       <div class="progress-mini"><div class="progress-fill" id="apiProgress" style="width:0%"></div></div>
+      <span class="status-text" id="apiDetail">جاری...</span>
     </div>
     <div class="meter">
-      <span class="meter-label">ڈیٹا ریڈنگ</span>
-      <span class="meter-value" id="dataPercent">0%</span>
-      <div class="progress-mini"><div class="progress-fill" id="dataProgress" style="width:0%"></div></div>
+      <span class="meter-label">ریسپانس ٹائم</span>
+      <span class="meter-value" id="responseTime">-- ms</span>
+      <div class="progress-mini"><div class="progress-fill" id="responseProgress" style="width:0%"></div></div>
     </div>
-  </div>
-  
-  <div class="chat">
+  </div>    <div class="chat">
     <div class="chat-head">
         <span class="dot"></span>
-        <span>اسسٹنٹ (GMD SPARK AI)</span>
+        <!-- یہاں ہمیشہ GMD SPARK لکھا آئے گا -->
+        <span id="assistantName">اسسٹنٹ (GMD SPARK AI)</span>
     </div>
     <div class="messages" id="messages">
       <div class="msg bot">
@@ -96,56 +118,134 @@ body{font-family:'Segoe UI',sans-serif;background:#0a3622;display:flex;justify-c
     <span>DEVELOPER BY MATEEN SUMDANI +923007956507</span>
   </div>
 </div>
-<script>const GMD_ULTRA_KEY = "GMD_ULTRA_310f1c31e862d9b0_91c5c58c37b9e91a_58984a5aa2778e26_063D3915779B_SECURE";
+<script>
+// ✅ نئی API Key (صرف یہی لائن اپڈیٹ کی گئی)
+const GMD_ULTRA_KEY = "gmd_f40ee7fd304205e4b9779f9475a40e967a2f40029d18331f697320033566800e";
 let dataRead = 0;
+let currentModel = "gmdspark";
 
 const messages = document.getElementById('messages');
 const chatInput = document.getElementById('chatInput');
 const sendBtn = document.getElementById('sendBtn');
 
-// ✅ سرور کی سچی چیک
+// ✅ ماڈل تبدیل کرنے کا فنکشن (صرف codellama والا کیس ایڈ کیا گیا)
+function changeModel() {
+    const select = document.getElementById('modelSelect');
+    const indicator = document.getElementById('modelIndicator');
+    currentModel = select.value;
+    
+    if(currentModel === 'gmdspark') {
+        indicator.textContent = "ماڈل: GMD SPARK AI";
+        indicator.style.color = "#FFFFFF";
+    } else if(currentModel === 'qwen') {
+        indicator.textContent = "ماڈل: Qwen Coder";
+        indicator.style.color = "#3FE88A";
+    } else if(currentModel === 'deepseek') {
+        indicator.textContent = "ماڈل: DeepSeek Coder";
+        indicator.style.color = "#FFE484";
+    } else if(currentModel === 'codellama') {  // ✅ نیا کیس
+        indicator.textContent = "ماڈل: CodeLlama-7B";
+        indicator.style.color = "#A0D4B8";    }
+}
+
+// ✅ سرور کا حقیقی چیک
 async function checkServer() {
     const el = document.getElementById('serverStatus');
+    const detail = document.getElementById('serverDetail');
     const bar = document.getElementById('serverProgress');
+    el.textContent = 'جاری...';
+    el.className = 'meter-value status-loading';
+    detail.textContent = 'آزمائش ہو رہی ہے...';
+    
+    const start = Date.now();
     try {
-        await fetch(window.location.href, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' });
-        el.textContent = 'ON';
-        el.className = 'meter-value status-on';
-        bar.style.width = '100%';
-    } catch (e) {
-        el.textContent = 'OFF';
-        el.className = 'meter-value status-off';
-        bar.style.width = '0%';
-    }
-}
-
-// ✅ API کی سچی چیک
-async function checkAPI() {
-    const el = document.getElementById('apiStatus');
-    const bar = document.getElementById('apiProgress');
-    try {
-        const r = await fetch('/.netlify/functions/chat', { 
-            method: 'OPTIONS', 
-            headers: { 'X-GMD-Key': GMD_ULTRA_KEY },
-            cache: 'no-store' 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        
+        const response = await fetch(window.location.href, { 
+            method: 'HEAD', 
+            mode: 'cors', 
+            cache: 'no-store',
+            signal: controller.signal
         });
-        if (r.ok || r.status === 204) {
-            el.textContent = '✓';
+        clearTimeout(timeoutId);
+        
+        const duration = Date.now() - start;
+        const isOnline = response.ok || (response.status >= 200 && response.status < 300);
+        
+        if(isOnline) {
+            el.textContent = 'ONLINE';
             el.className = 'meter-value status-on';
             bar.style.width = '100%';
+            detail.textContent = `${duration}ms ✓`;
         } else {
-            el.textContent = '✗';
+            el.textContent = 'OFFLINE';
             el.className = 'meter-value status-off';
             bar.style.width = '0%';
+            detail.textContent = `Code: ${response.status}`;
         }
     } catch (e) {
-        el.textContent = '✗';
+        el.textContent = 'OFFLINE';
         el.className = 'meter-value status-off';
         bar.style.width = '0%';
+        detail.textContent = `Timeout`;
     }
 }
 
-function updateDataProgress() {    const percent = Math.min((dataRead / 100) * 100, 100);
+// ✅ API کا حقیقی چیک
+async function checkAPI() {
+    const el = document.getElementById('apiStatus');    const detail = document.getElementById('apiDetail');
+    const bar = document.getElementById('apiProgress');
+    el.textContent = 'جاری...';
+    el.className = 'meter-value status-loading';
+    detail.textContent = 'آزمائش ہو رہی ہے...';
+    
+    const start = Date.now();
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        
+        const response = await fetch('/.netlify/functions/chat', { 
+            method: 'POST', 
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-GMD-Key': GMD_ULTRA_KEY 
+            },
+            body: JSON.stringify({ message: "_", modelType: currentModel }),
+            mode: 'cors',
+            cache: 'no-store',
+            signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        const duration = Date.now() - start;
+        
+        document.getElementById('responseTime').textContent = `${duration}ms`;
+        const progress = Math.min((duration / 2000) * 100, 100);
+        document.getElementById('responseProgress').style.width = `${100-progress}%`;
+        document.getElementById('responseProgress').style.background = 
+            duration < 1000 ? '#3FE88A' : duration < 2000 ? '#ffaa00' : '#ff4444';
+        
+        if(response.ok) {
+            el.textContent = 'ACTIVE';
+            el.className = 'meter-value status-on';
+            bar.style.width = '100%';
+            detail.textContent = `Success (${duration}ms)`;
+        } else {
+            el.textContent = 'ERROR';
+            el.className = 'meter-value status-off';
+            bar.style.width = '0%';
+            detail.textContent = `HTTP ${response.status}`;
+        }
+    } catch (e) {
+        el.textContent = 'ERROR';
+        el.className = 'meter-value status-off';
+        bar.style.width = '0%';
+        detail.textContent = `Error`;
+    }
+}
+function updateDataProgress() {
+    const percent = Math.min((dataRead / 100) * 100, 100);
     document.getElementById('dataPercent').textContent = Math.round(percent) + '%';
     document.getElementById('dataProgress').style.width = percent + '%';
 }
@@ -192,11 +292,11 @@ async function sendMessage() {
     
     try {
         const response = await fetch('/.netlify/functions/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',                'X-GMD-Key': GMD_ULTRA_KEY
+            method: 'POST',            headers: {
+                'Content-Type': 'application/json',                
+                'X-GMD-Key': GMD_ULTRA_KEY
             },
-            body: JSON.stringify({ message: text })
+            body: JSON.stringify({ message: text, modelType: currentModel })
         });
         
         const loading = document.getElementById('loadingMsg');
@@ -239,11 +339,10 @@ function doAction(type) {
     }
 }
 
-// ✅ پیج لوڈ پر سچی چیک شروع کریں
 window.onload = function() {
     chatInput.focus();
-    checkServer();
-    checkAPI();};
+    checkServer();    checkAPI();
+};
 </script>
 </body>
 </html>
